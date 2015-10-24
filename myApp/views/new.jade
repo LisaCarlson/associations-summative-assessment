@@ -20,19 +20,12 @@ block content
   .container
     .page-header 
       h1 #{gallery.title}   
-        small.text-warning photos in this gallery...
+        small.text-warning add a photo to this gallery
     .row
-      .col-md-4
-        a(href="/galleries/" + gallery._id + '/photos/new').add.btn.btn-success Add a Photo
-    .row
-      for photo in photos
-        .col-md-4
-          .thumbnail
-            img(src= photo.img, alt='pic1')
-            .caption
-              h3= photo.name
-              p
-                a(href="/galleries/"+gallery._id+'/photos/'+photo._id class="btn btn-warning" role="button") Edit
-
-  
-
+      .col-md-6
+        form(action='/galleries/' + gallery._id + '/photos', method='post')
+          label(for='name') Name
+          input.form-control(type='text' name='name' id='name' placeholder='name...')
+          label(for='url') Url
+          input.form-control(type='text' name='url' id='name' placeholder='img url...')
+          button.btn.btn-info(type='submit') Add Photo

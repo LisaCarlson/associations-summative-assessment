@@ -13,3 +13,20 @@ nav.navbar.navbar-default {
 .thumbnail {
   box-shadow: 0 0 5px 5px #fff;
 }
+
+.add {
+  margin-bottom: 30px;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input {
+  margin-bottom: 20px;
+}
+
+form {
+  background: #696969;
+  box-shadow: 0 0 5px 10px #696969;
+}

@@ -1,28 +1,31 @@
 var express = require('express');
 var router = express.Router();
-var db = require('monk')('localhost/galleries-demo');
-var Galleries = db.get('galleries');
-var Photos = db.get('photos');
 var Helper = require('../lib/scripts.js');
 
   
 router.get('/', function(req, res, next) {
-  Helper.find().then(function (data) {
+  Helper.findGalleries().then(function (data) {
     res.render('gallery', {galleries: data});
   });
 });
 
-
 router.get('/:id/photos', function(req, res, next) {
-  Galleries.findOne({_id: req.params.id}).then(function (gallery) {
-    return gallery;
-  }).then(function (gallery) {
-    return Photos.find({_id: {$in: gallery.photoId} }).then(function (doc) {
-      return doc;
-    }).then(function (photos) {
-      res.render('show', {photos: photos, gallery: gallery});
-    });
-  });
+  Helper.showPhotos(req.params.id).then(function (data) {
+    res.render('show', {gallery: data.gallery, photos: data.photos});
+  });      
+});
+
+router.get('/:id/photos/new', function(req, res, next) {
+  Helper.renderNew(req.params.id).then(function (data) {
+    res.render('new', {gallery: data});
+  });  
+});
+
+router.post('/:id/photos', function(req, res, next) {
+  var id = req.params.id;
+  Helper.addPhoto(id, req.body.url, req.body.name).then(function (data) {
+    res.redirect('/galleries/'+ id +'/photos');
+  })  
 });
 
 module.exports = router;
