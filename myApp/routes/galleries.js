@@ -27,7 +27,13 @@ router.post('/', function(req, res, next) {
       res.redirect('/galleries');
     });
   }  
-})
+});
+
+router.get('/:id/gallery-delete', function(req, res, next) {
+  Helper.removeGallery(req.params.id).then(function() {
+    res.redirect('/galleries');
+  });
+});
   
 router.get('/', function(req, res, next) {
   Helper.findGalleries().then(function (data) {

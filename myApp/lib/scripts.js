@@ -14,6 +14,10 @@ var Helper = {
     return Galleries.insert({img: url, title: title, description: description, photoId: []});
   },
 
+  removeGallery : function(id) {
+    return Galleries.remove({_id: id});
+  },
+
   showPhotos : function(id) {
     return Galleries.findOne({_id: id}).then(function (gallery) {
       return gallery;
