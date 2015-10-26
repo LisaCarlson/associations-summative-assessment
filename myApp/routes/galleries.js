@@ -28,4 +28,18 @@ router.post('/:id/photos', function(req, res, next) {
   })  
 });
 
+router.get('/:id/photos/:photoId/edit', function(req, res, next) {
+  Helper.editPhoto(req.params.id, req.params.photoId).then(function (data) {
+    res.render('edit', {photo: data[1], gallery: data[0]});
+  });
+});
+
+router.post('/:id/photos/:photoId', function(req, res, next) {
+  console.log(req.body.name)
+  Helper.updatePhoto(req.params.id, req.params.photoId, req.body.name, req.body.url).then(function (data) {
+    res.redirect('/galleries/'+ req.params.id +'/photos');
+  });
+});
+
+
 module.exports = router;

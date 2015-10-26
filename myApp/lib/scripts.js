@@ -40,6 +40,24 @@ var Helper = {
         return Galleries.updateById(id, {$set: {photoId: gallery.photoId}});
       });
     });
+  },
+
+  editPhoto : function(galleryId, photoId) {
+    return Galleries.findOne({_id: galleryId}).then(function (gallery) {
+      return gallery;
+    }).then(function (gallery) {
+      return Photos.findOne({_id: photoId}).then(function (photo) {
+        return [gallery, photo];
+      });
+    });    
+  },
+
+  updatePhoto : function(galleryId, photoId, name, url) {
+    return Galleries.findOne({_id: galleryId}).then(function (gallery) {
+      return gallery;
+    }).then(function (gallery) {
+      return Photos.updateById(photoId, {name: name, img: url});
+    });
   }
 }
 

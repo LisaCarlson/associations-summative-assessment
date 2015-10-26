@@ -30,3 +30,7 @@ form {
   background: #696969;
   box-shadow: 0 0 5px 10px #696969;
 }
+
+#edit, #delete {
+  margin: 10px;
+}
