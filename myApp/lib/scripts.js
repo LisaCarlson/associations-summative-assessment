@@ -52,17 +52,16 @@ var Helper = {
     });    
   },
 
-  updatePhoto : function(galleryId, photoId, name, url) {
-    return Galleries.findOne({_id: galleryId}).then(function (gallery) {
-      return gallery;
-    }).then(function (gallery) {
-      return Photos.updateById(photoId, {name: name, img: url});
-    });
+  updatePhoto : function(photoId, name, url) {
+    return Photos.updateById(photoId, {name: name, img: url});
+  },
+
+  removePhoto : function(photoId) {
+    return Photos.remove({_id: photoId});
   }
 }
 
 module.exports = Helper;
-
 
 
 

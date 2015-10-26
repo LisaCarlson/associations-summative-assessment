@@ -35,8 +35,13 @@ router.get('/:id/photos/:photoId/edit', function(req, res, next) {
 });
 
 router.post('/:id/photos/:photoId', function(req, res, next) {
-  console.log(req.body.name)
-  Helper.updatePhoto(req.params.id, req.params.photoId, req.body.name, req.body.url).then(function (data) {
+  Helper.updatePhoto(req.params.photoId, req.body.name, req.body.url).then(function (data) {
+    res.redirect('/galleries/'+ req.params.id +'/photos');
+  });
+});
+
+router.post('/:id/photos/:photoId/delete', function(req, res, next) {
+  Helper.removePhoto(req.params.photoId).then(function (data) {
     res.redirect('/galleries/'+ req.params.id +'/photos');
   });
 });
