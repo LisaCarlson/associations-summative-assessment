@@ -23,6 +23,7 @@ block content
         small.text-warning add a photo to this gallery
     .row
       .col-md-6
+        include errors
         form(action='/galleries/' + gallery._id + '/photos', method='post')
           label(for='name') Name
           input.form-control(type='text' name='name' id='name' placeholder='name...')

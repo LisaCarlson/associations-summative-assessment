@@ -14,6 +14,10 @@ nav.navbar.navbar-default {
   box-shadow: 0 0 5px 5px #fff;
 }
 
+.right {
+  float: right;
+}
+
 .add {
   margin-bottom: 30px;
 }

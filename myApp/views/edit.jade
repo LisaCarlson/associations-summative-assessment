@@ -33,7 +33,7 @@ block content
           input.form-control(type='text' name='name' id='name' value= photo.name)
           label(for='url') Url
           input.form-control(type='text' name='url' id='name' value= photo.img)
-          button#edit.btn.btn-info(type='submit') Edit Photo
+          button#edit.btn.btn-info(type='submit') Update Photo
         form(action='/galleries/' + gallery._id + '/photos/' + photo._id + '/delete', method='post')
           button#delete.btn.btn-danger Delete Photo
 

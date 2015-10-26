@@ -25,7 +25,7 @@ block content
       .col-md-4
         a(href="/galleries/" + gallery._id + '/photos/new').add.btn.btn-success Add a Photo
     .row
-      for photo in photos
+      each photo, index in photos
         .col-md-4
           .thumbnail
             img(src= photo.img, alt='pic1')
@@ -33,6 +33,5 @@ block content
               h3= photo.name
               p
                 a(href="/galleries/"+gallery._id+'/photos/'+photo._id +'/edit' class="btn btn-warning" role="button") Edit
-
-  
+        
 
