@@ -2,22 +2,48 @@ var express = require('express');
 var router = express.Router();
 var Helper = require('../lib/scripts.js');
 
+router.get('/new', function(req, res, next) {
+  res.render('galleries/new', {errors: req.session.errorList});
+});
+
+router.post('/', function(req, res, next) {
+  var errors = [];
+  if (!req.body.title) {
+    errors.push('Title is required');
+  }
+  if (!req.body.description) {
+    errors.push('description is required');
+  }
+  if (!req.body.url) {
+    errors.push('URL is required');
+  }
+  if (errors.length) {
+    req.session.errorList = errors;
+    res.redirect('/galleries/new');
+  }
+  else {
+    Helper.addGallery(req.body.title, req.body.description, req.body.url).then(function () {
+      req.session.errorList = null;
+      res.redirect('/galleries');
+    });
+  }  
+})
   
 router.get('/', function(req, res, next) {
   Helper.findGalleries().then(function (data) {
-    res.render('gallery', {galleries: data});
+    res.render('galleries/gallery', {galleries: data});
   });
 });
 
 router.get('/:id/photos', function(req, res, next) {
   Helper.showPhotos(req.params.id).then(function (data) {
-    res.render('show', {gallery: data.gallery, photos: data.photos});
+    res.render('photos/show', {gallery: data.gallery, photos: data.photos});
   });      
 });
 
 router.get('/:id/photos/new', function(req, res, next) {
   Helper.renderNew(req.params.id).then(function (data) {
-    res.render('new', {gallery: data, errors: req.session.errorList});
+    res.render('photos/new', {gallery: data, errors: req.session.errorList});
   });
 });
 
@@ -43,7 +69,7 @@ router.post('/:id/photos', function(req, res, next) {
 
 router.get('/:id/photos/:photoId/edit', function(req, res, next) {
   Helper.editPhoto(req.params.id, req.params.photoId).then(function (data) {
-    res.render('edit', {photo: data[1], gallery: data[0], errors: req.session.errorList});
+    res.render('photos/edit', {photo: data[1], gallery: data[0], errors: req.session.errorList});
   });
 });
 

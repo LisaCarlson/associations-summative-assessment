@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
   nav.navbar.navbar-default
@@ -9,7 +9,7 @@ block content
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand(href='/galleries') Gallery
+        a.navbar-brand(href='#') Gallery
       ul.nav.navbar-nav.navbar-right
         li
           h4.navbar-text 
@@ -19,19 +19,27 @@ block content
           a(href='/signout') Sign Out
   .container
     .page-header 
-      h1 #{gallery.title}   
-        small.text-warning photos in this gallery...
+      h1 My Galleries   
+        small.text-warning have a look...
     .row
-      .col-md-4
-        a(href="/galleries/" + gallery._id + '/photos/new').add.btn.btn-success Add a Photo
+      .col-md-12
+        a(href="/galleries/new" class="btn btn-default margin-bottom" role="button") Add a Gallery
     .row
-      each photo, index in photos
+      for gallery in galleries
         .col-md-4
           .thumbnail
-            img(src= photo.img, alt='pic1')
+            img(src= gallery.img, alt='pic1')
             .caption
-              h3= photo.name
+              h3.text-center= gallery.title
+              p.text-center= gallery.description
               p
-                a(href="/galleries/"+gallery._id+'/photos/'+photo._id +'/edit' class="btn btn-warning" role="button") Edit
-        
+                a(href="/galleries/"+gallery._id+'/photos' class="btn btn-warning" role="button") See Photos
+                a(href="/galleries/"+gallery._id+'/gallery-delete' class="btn btn-danger right" role="button") Delete Album
+
+  
+
+
+
+
+
 

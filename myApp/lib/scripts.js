@@ -10,6 +10,10 @@ var Helper = {
     });
   },
 
+  addGallery : function(title, description, url) {
+    return Galleries.insert({img: url, title: title, description: description, photoId: []});
+  },
+
   showPhotos : function(id) {
     return Galleries.findOne({_id: id}).then(function (gallery) {
       return gallery;

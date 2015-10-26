@@ -22,6 +22,10 @@ nav.navbar.navbar-default {
   margin-bottom: 30px;
 }
 
+.margin-bottom {
+  margin-bottom: 30px;
+}
+
 label {
   margin-top: 10px;
 }
