@@ -1,9 +1,15 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-family: "Poiret One";
 }
 
-a {
-  color: #00B7FF;
+a, h1, h2, h3, h4, span, button {
+  font-family: "Poiret One";
+  font-weight: bold;
+}
+
+span, a, i {
+  color: #fff;
 }
 
 nav.navbar.navbar-default {

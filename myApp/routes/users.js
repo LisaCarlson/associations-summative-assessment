@@ -44,7 +44,8 @@ router.post('/login', function(req, res, next) {
   else {
     Helper.signin(req.body.email, req.body.password).then(function (data) {
       req.session.username = req.body.email;
-      res.render('galleries/gallery', {galleries: data, username: req.session.username});
+      res.redirect('/galleries');
+      // res.render('galleries/gallery', {galleries: data, username: req.session.username});
     });
   }  
 });

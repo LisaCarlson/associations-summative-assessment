@@ -35,22 +35,26 @@ router.get('/:id/gallery-delete', function(req, res, next) {
   });
 });
   
+// router.get('/', function(req, res, next) {
+//   Helper.findGalleries().then(function (data) {
+//     res.render('galleries/gallery', {galleries: data, username: req.session.username});
+//   });
+// });
 router.get('/', function(req, res, next) {
-  Helper.findGalleries().then(function (data) {
+  Helper.findUser(req.session.username).then(function (data) {
     res.render('galleries/gallery', {galleries: data, username: req.session.username});
   });
 });
 
-
 router.get('/:id/photos', function(req, res, next) {
   Helper.showPhotos(req.params.id).then(function (data) {
-    res.render('photos/show', {gallery: data.gallery, photos: data.photos});
+    res.render('photos/show', {gallery: data.gallery, photos: data.photos, username: req.session.username});
   });      
 });
 
 router.get('/:id/photos/new', function(req, res, next) {
   Helper.renderNew(req.params.id).then(function (data) {
-    res.render('photos/new', {gallery: data, errors: req.session.errorList});
+    res.render('photos/new', {gallery: data, errors: req.session.errorList, username: req.session.username});
   });
 });
 
@@ -76,7 +80,7 @@ router.post('/:id/photos', function(req, res, next) {
 
 router.get('/:id/photos/:photoId/edit', function(req, res, next) {
   Helper.editPhoto(req.params.id, req.params.photoId).then(function (data) {
-    res.render('photos/edit', {photo: data[1], gallery: data[0], errors: req.session.errorList});
+    res.render('photos/edit', {photo: data[1], gallery: data[0], errors: req.session.errorList, username: req.session.username});
   });
 });
 
