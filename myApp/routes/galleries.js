@@ -37,9 +37,10 @@ router.get('/:id/gallery-delete', function(req, res, next) {
   
 router.get('/', function(req, res, next) {
   Helper.findGalleries().then(function (data) {
-    res.render('galleries/gallery', {galleries: data});
+    res.render('galleries/gallery', {galleries: data, username: req.session.username});
   });
 });
+
 
 router.get('/:id/photos', function(req, res, next) {
   Helper.showPhotos(req.params.id).then(function (data) {

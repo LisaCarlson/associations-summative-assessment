@@ -1,9 +1,47 @@
 var db = require('monk')('localhost/galleries-demo');
 var Galleries = db.get('galleries');
 var Photos = db.get('photos');
+var Users = db.get('users');
+var bcrypt = require('bcrypt');
 
 
 var Helper = {
+  signin : function(email, password) {
+    var errors = [];
+    return Users.findOne({email: email}).then(function (data) {
+      if (data) {
+        if (bcrypt.compareSync(password, data.passwordDigest)) {
+          return Galleries.find({ _id: { $in: data.galleries } }).then(function (docs) {
+            return docs;
+          });
+        }
+        else {
+          errors.push("Invalid email / password");
+          res.render('login', {errors: errors});
+        }
+      } else {
+        errors.push('Invalid email / password');
+        res.render('login', {errors: errors});
+      }
+    }); 
+  },
+
+  addUser : function(email, password) {
+    var hash = bcrypt.hashSync(password, 12);
+    var errors = [];
+    return Users.findOne({email: email.toLowerCase()}).then(function (data) {
+      if (data) {
+        errors.push('Email already exists. Try signing in!');
+        res.render('register', {errors: errors})
+      }
+      else {
+        return Users.insert({email: email, passwordDigest: hash, galleries: [] }).then(function (user) {
+          return user;
+        });
+      }
+    });
+  },
+
   findGalleries : function() {
     return Galleries.find({}).then(function (data) {
       return data;
@@ -11,6 +49,7 @@ var Helper = {
   },
 
   addGallery : function(title, description, url) {
+    //find user using req.session, insert gallery id into their galleries
     return Galleries.insert({img: url, title: title, description: description, photoId: []});
   },
 

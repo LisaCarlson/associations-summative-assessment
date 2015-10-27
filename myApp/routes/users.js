@@ -1,9 +1,57 @@
 var express = require('express');
 var router = express.Router();
+var Helper = require('../lib/scripts.js');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
+});
+
+router.post('/register', function(req, res, next) {
+  var errors = [];
+  if(!req.body.email) {
+    errors.push('Email is required');
+  }
+  if(!req.body.password) {
+    errors.push('Password is required');
+  }
+  if(errors.length) {
+    res.render('register', {errors: errors});
+  }
+  else {
+    Helper.addUser(req.body.email, req.body.password).then(function (data) {
+      req.session.username = req.body.email;
+      res.render('galleries/gallery', {galleries: data.galleries, username: req.session.username});
+    });
+  }
+});
+
+router.get('/login', function(req, res, next) {
+  res.render('login');
+});
+
+router.post('/login', function(req, res, next) {
+  var errors = [];
+  if(!req.body.email) {
+    errors.push('Email is required');
+  }
+  if(!req.body.password) {
+    errors.push('Password is required');
+  }
+  if(errors.length) {
+    res.render('login', {errors: errors});
+  }
+  else {
+    Helper.signin(req.body.email, req.body.password).then(function (data) {
+      req.session.username = req.body.email;
+      res.render('galleries/gallery', {galleries: data, username: req.session.username});
+    });
+  }  
+});
+
+router.get('/logout', function(req, res, next) {
+  req.session = null;
+  res.redirect('/register');
 });
 
 module.exports = router;
