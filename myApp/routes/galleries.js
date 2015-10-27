@@ -18,8 +18,6 @@ router.post('/', function(req, res, next) {
     errors.push('URL is required');
   }
   if (errors.length) {
-    // req.session.errorList = errors;
-    // res.redirect('/galleries/new');
     res.render('galleries/new', {errors: errors});
   }
   else {
@@ -31,16 +29,11 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/:id/gallery-delete', function(req, res, next) {
-  Helper.removeGallery(req.params.id).then(function() {
+  Helper.removeGallery(req.params.id, req.session.username).then(function() {
     res.redirect('/galleries');
   });
 });
   
-// router.get('/', function(req, res, next) {
-//   Helper.findGalleries().then(function (data) {
-//     res.render('galleries/gallery', {galleries: data, username: req.session.username});
-//   });
-// });
 router.get('/', function(req, res, next) {
   Helper.findUser(req.session.username).then(function (data) {
     res.render('galleries/gallery', {galleries: data, username: req.session.username});
