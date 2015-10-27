@@ -7,24 +7,26 @@ var bcrypt = require('bcrypt');
 
 var Helper = {
   signin : function(email, password) {
-    var errors = [];
-    return Users.findOne({email: email}).then(function (data) {
-      if (data) {
-        if (bcrypt.compareSync(password, data.passwordDigest)) {
-          return Galleries.find({ _id: { $in: data.galleries } }).then(function (docs) {
-            return docs;
-          });
-        }
-        else {
-          errors.push("Invalid email / password");
-          res.render('login', {errors: errors});
-        }
-      } else {
-        errors.push('Invalid email / password');
-        res.render('login', {errors: errors});
+  var errors = [];
+  var result = {};
+  return Users.findOne({email: email.toLowerCase()}).then(function (data) {
+    if (data) {
+      if (bcrypt.compareSync(password, data.passwordDigest)) {
+        return result;
       }
-    }); 
-  },
+      else {
+        errors.push("Invalid email / password");
+        result['errors'] = errors;
+        return result;
+      }
+    }
+    else {
+      errors.push('Invalid email / password');
+      result['errors'] = errors;
+      return result;
+    }
+  });
+},
 
   addUser : function(email, password) {
     var hash = bcrypt.hashSync(password, 12);
@@ -133,6 +135,77 @@ var Helper = {
 }
 
 module.exports = Helper;
+
+
+
+// signin : function(email, password) {
+//     var errors = [];
+//     var result = {};
+//     return Users.findOne({email: email}).then(function (data) {
+//       if (data) {
+//         if (bcrypt.compareSync(password, data.passwordDigest)) {
+//           // return Galleries.find({ _id: { $in: data.galleries } }).then(function (docs) {
+//           //   result['data'] = docs;
+//           return result;
+//           });
+//         }
+//         else {
+//           errors.push("Invalid email / password");
+//           result['errors'] = errors;
+//           return result;
+//         }
+       
+//        else {
+//         errors.push('Invalid email / password');
+//         result['errors'] = errors;
+//         return result;
+//       }
+//     });
+//   } 
+// },
+
+
+// signin : function(email, password) {
+//   var errors = [];
+//   var result = {};
+//   return Users.findOne({email: email.toLowerCase()}).then(function (data) {
+//     if (data) {
+//       if (bcrypt.compareSync(password, data.passwordDigest)) {
+//         return result;
+//       }
+//       else {
+//         errors.push("Invalid email / password");
+//         result['errors'] = errors;
+//         return result;
+//       }
+//     }
+//     else {
+//       errors.push('Invalid email / password');
+//       result['errors'] = errors;
+//       return result;
+//     }
+//   })
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

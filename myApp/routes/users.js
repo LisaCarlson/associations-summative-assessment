@@ -30,7 +30,6 @@ router.post('/register', function(req, res, next) {
         req.session.username = req.body.email;
         res.redirect('/galleries');
       }
-      // res.render('galleries/gallery', {galleries: data.galleries, username: req.session.username});
     });
   }
 });
@@ -52,9 +51,13 @@ router.post('/login', function(req, res, next) {
   }
   else {
     Helper.signin(req.body.email, req.body.password).then(function (data) {
-      req.session.username = req.body.email;
-      res.redirect('/galleries');
-      // res.render('galleries/gallery', {galleries: data, username: req.session.username});
+      if(data.errors) {
+        res.render('login', {errors: data.errors});
+      }
+      else {
+        req.session.username = req.body.email;
+        res.redirect('/galleries');
+      }
     });
   }  
 });
