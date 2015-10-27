@@ -3,7 +3,7 @@ var router = express.Router();
 var Helper = require('../lib/scripts.js');
 
 router.get('/new', function(req, res, next) {
-  res.render('galleries/new', {errors: req.session.errorList});
+  res.render('galleries/new', {errors: req.session.errorList, username: req.session.username});
 });
 
 router.post('/', function(req, res, next) {
@@ -18,11 +18,12 @@ router.post('/', function(req, res, next) {
     errors.push('URL is required');
   }
   if (errors.length) {
-    req.session.errorList = errors;
-    res.redirect('/galleries/new');
+    // req.session.errorList = errors;
+    // res.redirect('/galleries/new');
+    res.render('galleries/new', {errors: errors});
   }
   else {
-    Helper.addGallery(req.body.title, req.body.description, req.body.url).then(function () {
+    Helper.addGallery(req.body.title, req.body.description, req.body.url, req.session.username).then(function () {
       req.session.errorList = null;
       res.redirect('/galleries');
     });

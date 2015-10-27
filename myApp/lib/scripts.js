@@ -11,7 +11,6 @@ var Helper = {
     return Users.findOne({email: email}).then(function (data) {
       if (data) {
         if (bcrypt.compareSync(password, data.passwordDigest)) {
-          console.log(data.galleries);
           return Galleries.find({ _id: { $in: data.galleries } }).then(function (docs) {
             return docs;
           });
@@ -60,11 +59,23 @@ var Helper = {
   //     return data;
   //   });
   // },
-
-  addGallery : function(title, description, url) {
-    //find user using req.session, insert gallery id into their galleries
-    return Galleries.insert({img: url, title: title, description: description, photoId: []});
+  addGallery : function(title, description, url, email) {
+      return Galleries.insert({img: url, title: title, description: description, photoId: []}).then(function (gallery) {
+        return gallery._id;
+      }).then(function (galleryId) {
+        return Users.findOne({email: email.toLowerCase()}).then(function (user) {
+          user.galleries.push(galleryId);
+          return user.galleries;     
+        }).then(function (updatedGalleries) {
+          return Users.update({email: email}, {$set: {galleries: updatedGalleries}});
+        });
+      });
   },
+
+  // addGallery : function(title, description, url) {
+  //   //find user using req.session, insert gallery id into their galleries
+  //   return Galleries.insert({img: url, title: title, description: description, photoId: []});
+  // },
 
   removeGallery : function(id) {
     return Galleries.remove({_id: id});
