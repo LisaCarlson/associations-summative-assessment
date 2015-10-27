@@ -29,15 +29,18 @@ var Helper = {
 
   addUser : function(email, password) {
     var hash = bcrypt.hashSync(password, 12);
+    var result = {};
     var errors = [];
     return Users.findOne({email: email.toLowerCase()}).then(function (data) {
       if (data) {
         errors.push('Email already exists. Try signing in!');
-        res.render('register', {errors: errors})
+        result['errors'] = errors;
+        return result;
       }
       else {
         return Users.insert({email: email, passwordDigest: hash, galleries: [] }).then(function (user) {
-          return user;
+          result['user'] = user;
+          return result;
         });
       }
     });
@@ -45,7 +48,6 @@ var Helper = {
 
   findUser : function(email) {
     return Users.findOne({email: email.toLowerCase()}).then(function (user) {
-      console.log(user);
       return user.galleries;
     }).then(function (galleryIds) {
       return Galleries.find({_id: {$in: galleryIds}}).then(function (galleries) {
