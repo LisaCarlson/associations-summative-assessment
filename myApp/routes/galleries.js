@@ -35,9 +35,14 @@ router.get('/:id/gallery-delete', function(req, res, next) {
 });
   
 router.get('/', function(req, res, next) {
-  Helper.findUser(req.session.username).then(function (data) {
-    res.render('galleries/gallery', {galleries: data, username: req.session.username});
-  });
+  if (!req.session.username) {
+    res.redirect('/register');
+  }
+  else {
+    Helper.findUser(req.session.username).then(function (data) {
+      res.render('galleries/gallery', {galleries: data, username: req.session.username});
+    });
+  }
 });
 
 router.get('/:id/photos', function(req, res, next) {
