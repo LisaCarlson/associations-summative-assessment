@@ -40,7 +40,8 @@ router.get('/', function(req, res, next) {
   }
   else {
     Helper.findUser(req.session.username).then(function (data) {
-      res.render('galleries/gallery', {galleries: data, username: req.session.username});
+      console.log(data);
+      res.render('galleries/gallery', {galleries: data.galleries, otherGalleries: data.otherGalleries, username: req.session.username});
     });
   }
 });

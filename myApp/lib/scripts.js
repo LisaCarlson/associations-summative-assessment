@@ -48,13 +48,45 @@ var Helper = {
   },
 
   findUser : function(email) {
+    var joinUserGallery = function (users, galleries) {
+      var indexed = galleries.reduce(function (result, gallery) {
+        result[gallery._id.toString()] = gallery;
+          return result;
+      }, {});
+      users.forEach(function (user) {
+        user.galleries = user.galleries.map(function (_id) {
+          return indexed[_id.toString()];
+        });
+      });
+      return users;
+    };
+    var data = {};
     return Users.findOne({email: email.toLowerCase()}).then(function (user) {
       return user.galleries;
     }).then(function (galleryIds) {
       return Galleries.find({_id: {$in: galleryIds}}).then(function (galleries) {
-        return galleries;
+        data['galleries'] = galleries;
+        data['otherGalleries'] = [];
+        return data;
       });
+    }).then(function (data) {
+      return Users.find({}).then(function (users) {
+        return users.filter(function (user) {
+          return user.email !== email;
+        })
+      })
+    }).then(function (users) {
+      var galleryIds = users.reduce(function (result, user) {
+        return result.concat(user.galleries);
+      }, []);
+      return Galleries.find({_id: {$in: galleryIds}}).then(function (gallery) {
+        joinUserGallery(users, gallery);
+        data.otherGalleries = users;
+        return data;
+      });
+
     });
+
   },
 
   addGallery : function(title, description, url, email) {
