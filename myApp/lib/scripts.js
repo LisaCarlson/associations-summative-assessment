@@ -4,7 +4,6 @@ var Photos = db.get('photos');
 var Users = db.get('users');
 var bcrypt = require('bcrypt');
 
-
 var Helper = {
   signin : function(email, password) {
   var errors = [];

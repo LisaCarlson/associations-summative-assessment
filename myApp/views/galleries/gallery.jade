@@ -35,13 +35,13 @@ block content
               p
                 a(href="/galleries/"+gallery._id+'/photos' class="btn btn-warning" role="button") See Photos
                 a(href="/galleries/"+gallery._id+'/gallery-delete' class="btn btn-danger right" role="button") Delete Gallery
-    h1 Other Users' Galleries
+    h1.text-info Other Users' Galleries
     if otherGalleries
       for otherGallery in otherGalleries
         .row
           .col-md-12
             .page-header
-              h2= otherGallery.email
+              h2.text-warning= otherGallery.email
             for specificGallery in otherGallery.specificGalleries
               .col-md-4
                 .thumbnail
@@ -49,4 +49,3 @@ block content
                   .caption
                     h3.text-center= specificGallery.title
                     p.text-center= specificGallery.description
-                    
