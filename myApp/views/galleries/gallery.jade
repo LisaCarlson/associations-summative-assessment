@@ -36,26 +36,17 @@ block content
                 a(href="/galleries/"+gallery._id+'/photos' class="btn btn-warning" role="button") See Photos
                 a(href="/galleries/"+gallery._id+'/gallery-delete' class="btn btn-danger right" role="button") Delete Gallery
     h1 Other Users' Galleries
-      if otherGalleries
-        for otherGallery in otherGalleries
-          .row
-            .col-md-12
+    if otherGalleries
+      for otherGallery in otherGalleries
+        .row
+          .col-md-12
+            .page-header
               h2= otherGallery.email
-                for gallery in galleries
-                  .col-md-4
-                    .thumbnail
-                      img(src= gallery.img, alt='pic')
-                      .caption
-                        h3.text-center= gallery.title
-                        p.text-center= gallery.description
-              
-              
-
-
-  
-
-
-
-
-
-
+            for specificGallery in otherGallery.specificGalleries
+              .col-md-4
+                .thumbnail
+                  img(src= specificGallery.img, alt='pic')
+                  .caption
+                    h3.text-center= specificGallery.title
+                    p.text-center= specificGallery.description
+                    

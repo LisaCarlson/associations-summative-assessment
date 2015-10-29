@@ -54,7 +54,7 @@ var Helper = {
           return result;
       }, {});
       users.forEach(function (user) {
-        user.galleries = user.galleries.map(function (_id) {
+        user.specificGalleries = user.galleries.map(function (_id) {
           return indexed[_id.toString()];
         });
       });
