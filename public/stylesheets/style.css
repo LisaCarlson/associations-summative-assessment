@@ -45,11 +45,6 @@ form {
   box-shadow: 0 0 5px 10px #696969;
 }
 
-.thumbnail > img {
-  height: 350px;
-  width: 350px;
-}
-
 #edit, #delete {
   margin: 10px;
 }
