@@ -48,3 +48,8 @@ form {
 #edit, #delete {
   margin: 10px;
 }
+
+.thumbnail > img {
+  height: 350px;
+  width: 350px;
+}
