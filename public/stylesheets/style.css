@@ -50,6 +50,11 @@ form {
 }
 
 .thumbnail > img {
+<<<<<<< HEAD
   height: 350px;
   width: 350px;
+=======
+  width: 350px;
+  height: 350px;
+>>>>>>> 0bcb495c8257cc74b927c01de41dc60874c9c9cf
 }
